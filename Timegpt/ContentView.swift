@@ -14,13 +14,13 @@ struct ContentView: View {
             VStack {
                 ZStack {
                     Circle()
-                        .stroke(lineWidth: 20)
+                        .stroke(lineWidth: 15)
                         .fill(Color.gray.opacity(0.1))
                     
                     Circle()
                         .trim(from: 0, to: progress)
-                        .stroke(style: StrokeStyle(lineWidth: 20, lineCap: .round))
-                        .foregroundColor(.blue)
+                        .stroke(style: StrokeStyle(lineWidth: 15, lineCap: .round))
+                        .foregroundColor(.red)
                         .rotationEffect(Angle(degrees: -90))
                     
                     Text(timeString(time: secondsLeft))
@@ -30,27 +30,29 @@ struct ContentView: View {
                 .frame(width: 250, height: 250)
                 
                 Spacer().frame(height: 40)
-                
-                Button(action: {
-                    if !timerRunning {
-                        startTimer()
-                    }
-                }) {
-                    Image(systemName: timerRunning ? "pause.fill" : "play.fill")
-                        .font(.system(size: 50))
-                        .foregroundColor(timerRunning ? .gray : .blue)
-                        .opacity(timerRunning ? 0.5 : 1)
-                }
-                .buttonStyle(PlainButtonStyle())
-                
-                Spacer().frame(height: 40)
+                            
+                            Button(action: {
+                                if !timerRunning {
+                                    startTimer()
+                                }
+                            }) {
+                                Text(timerRunning ? "⏸" : "🍅")
+                                    .font(.system(size: 50))
+                                    .foregroundColor(timerRunning ? .gray : .blue)
+                                    .opacity(timerRunning ? 0.5 : 1)
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                            
+                            Spacer().frame(height: 40)
                 
                 Button("查看统计") {
                     showStatisticsView.toggle()
                 }
                 .sheet(isPresented: $showStatisticsView) {
                     StatisticsView()
+                        .frame(width: 500, height: 500)
                 }
+
             }
             .alert(isPresented: $showAlert) {
                 Alert(title: Text("25分钟工作时间已到"),
@@ -61,16 +63,7 @@ struct ContentView: View {
             }
             .blur(radius: showAlert ? 5 : 0)
 
-            if showAlert {
-                VStack {
-                    Image(systemName: "hand.thumbsup.fill")
-                        .resizable()
-                        .frame(width: 24, height: 24)
-                        .foregroundColor(.green)
-                        .padding(.bottom, 10)
-                    Spacer()
-                }
-            }
+          
         }
         .frame(width: 200)
     }
@@ -91,7 +84,7 @@ struct ContentView: View {
     }
        
        func startRestTimer() {
-           secondsLeft = 5 * 60
+           secondsLeft = 5   * 60
            progress = 0
            
            timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in

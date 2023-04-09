@@ -30,11 +30,7 @@ struct RatingView: View {
     
     func saveRating() {
         let now = Date()
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
-        let startTime = dateFormatter.string(from: now.addingTimeInterval(-25 * 60))
-        
-        let tomato = Tomato(id: UUID(), startTime: startTime, rating: rating)
+        let tomato = Tomato(id: UUID(), date: now, rating: rating)
         if let encodedData = try? JSONEncoder().encode(tomato) {
             let key = "timegpt_tomatoes"
             var tomatoesData = UserDefaults.standard.array(forKey: key) as? [Data] ?? []
