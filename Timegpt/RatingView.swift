@@ -1,8 +1,11 @@
+
+
 import SwiftUI
 
 struct RatingView: View {
     @Environment(\.presentationMode) var presentationMode
     @State private var rating: Int = 0
+    var tomato: Tomato
 
     var body: some View {
         VStack(spacing: 20) {
@@ -26,22 +29,27 @@ struct RatingView: View {
             }
         }
         .padding()
+        // 添加背景颜色
+        .cornerRadius(20) // 添加圆角边框
+        .shadow(radius: 10) // 添加阴影效果
     }
     
+    
     func saveRating() {
-        let now = Date()
-        let tomato = Tomato(id: UUID(), date: now, rating: rating)
-        if let encodedData = try? JSONEncoder().encode(tomato) {
+        let updatedTomato = Tomato(id: tomato.id, date: tomato.date, rating: rating)
+        if let encodedData = try? JSONEncoder().encode(updatedTomato) {
             let key = "timegpt_tomatoes"
             var tomatoesData = UserDefaults.standard.array(forKey: key) as? [Data] ?? []
             tomatoesData.append(encodedData)
             UserDefaults.standard.set(tomatoesData, forKey: key)
         }
+        }
     }
-}
 
 struct RatingView_Previews: PreviewProvider {
     static var previews: some View {
-        RatingView()
+        RatingView(tomato: Tomato(id: UUID(), date: Date(), rating: 0))
+          
+            .previewLayout(.sizeThatFits)
     }
 }

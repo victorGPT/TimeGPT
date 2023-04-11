@@ -48,8 +48,9 @@ struct StatisticsView: View {
             .padding(.top)
         }
         .padding()
-        .onAppear {
-            groupTomatoes()
+              .onAppear {
+                  loadTomatoes()
+                  groupTomatoes()
         }
     }
     
@@ -71,6 +72,13 @@ struct StatisticsView: View {
         let totalRating = tomatoesForDate.reduce(0) { $0 + $1.rating }
         return Double(totalRating) / Double(tomatoesForDate.count)
     }
+    func loadTomatoes() {
+          let key = "timegpt_tomatoes"
+          let tomatoesData = UserDefaults.standard.array(forKey: key) as? [Data] ?? []
+          tomatoes = tomatoesData.compactMap { data in
+              try? JSONDecoder().decode(Tomato.self, from: data)
+          }
+      }
     
     func groupTomatoes() {
         groupedTomatoes = Dictionary(grouping: tomatoes) { tomato in
