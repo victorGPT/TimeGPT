@@ -4,7 +4,7 @@ struct ContentView: View {
      @State private var showRatingView = false
      @State private var showStatisticsView = false
      @State private var timer: Timer?
-     @State private var secondsLeft = 1 * 60
+     @State private var secondsLeft = 25 * 60
      @State private var progress: CGFloat = 0.0
      @State private var timerRunning = false
      @State private var tomato: Tomato? = nil
